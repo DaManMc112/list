@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editable List</title>
+</head>
+<body>
+
+<h2> List</h2>
+
+<!-- Input field for adding items -->
+<input type="text" id="itemInput" placeholder="Enter an item">
+<button onclick="addItem()">Add Item</button>
+
+<!-- List to display items -->
+<ul id="itemList">
+<!-- Items will be added here -->
+</ul>
+
+<!-- Button to save list -->
+<button onclick="saveList()">Save List</button>
+
+<script>
+// Function to add item to the list
+function addItem() {
+  var inputField = document.getElementById("itemInput");
+  var item = inputField.value;
+  if (item.trim() !== "") {
+    var listItem = document.createElement("li");
+    listItem.textContent = item;
+    document.getElementById("itemList").appendChild(listItem);
+    inputField.value = ""; // Clear the input field after adding
+  }
+}
+
+// Function to save list to localStorage
+function saveList() {
+  var items = [];
+  var listItems = document.querySelectorAll("#itemList li");
+  listItems.forEach(function(li) {
+    items.push(li.textContent);
+  });
+  localStorage.setItem("savedList", JSON.stringify(items));
+  alert("List saved successfully!");
+}
+
+// Function to load saved list from localStorage
+window.onload = function() {
+  var savedList = localStorage.getItem("savedList");
+  if (savedList) {
+    savedList = JSON.parse(savedList);
+    savedList.forEach(function(item) {
+      var listItem = document.createElement("li");
+      listItem.textContent = item;
+      document.getElementById("itemList").appendChild(listItem);
+    });
+  }
+}
+</script>
+
+</body>
+</html>
